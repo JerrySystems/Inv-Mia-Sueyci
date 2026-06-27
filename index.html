@@ -31,7 +31,7 @@
       object-fit: cover;
     }
 
-    .botones {
+   .botones {
       display: none;
       position: absolute;
       bottom: 45px;
@@ -39,8 +39,24 @@
       width: 100%;
       text-align: center;
       z-index: 10;
+	top:0;
     }
 
+.botones{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    <height:100%;>
+
+  <display:flex;>    
+    flex-direction:column;
+    justify-content:center;   /* Centrado vertical */
+    align-items:center;       /* Centrado horizontal */
+
+    z-index:10;
+}
     .botones a {
       display: block;
       margin: 12px auto;
@@ -53,6 +69,7 @@
       color: white;
     }
 
+
     .confirmar {
       background: #25D366;
     }
@@ -60,6 +77,29 @@
     .waze {
       background: #33CCFF;
     }
+
+    .maps {
+      background: #0033FF;
+    }
+
+    .contador-box{
+  margin-bottom:18px;
+  color:white;
+  text-align:center;
+  text-shadow:0 3px 8px rgba(0,0,0,.8);
+}
+
+.frase{
+  font-family:"Brush Script MT", cursive;
+  font-size:44px;
+  letter-spacing:1px;
+}
+
+.contador{
+  margin-top:8px;
+  font-size:17px;
+  font-weight:bold;
+}
   </style>
 </head>
 
@@ -71,16 +111,27 @@
     </video>
 
     <div class="botones" id="botones">
-      <a class="confirmar" href="https://docs.google.com/forms/d/e/1FAIpQLScPGRN0tmp-L_LYI7xFu5vkahmracuLsJQlmjnbd2kD3umECw/viewform?usp=header" target="_blank">
-        Confirmar asistencia
-      </a>
 
-      <a class="waze" href="https://waze.com/ul/h9g6hm4qmf" target="_blank">
-        Cómo llegar con Waze
-      </a>
+  <div class="contador-box">
+    <div class="frase">Para nuestra fiesta falta</div>
+    <div class="contador" id="contador">
+      0 días 0 horas 0 minutos 0 segundos
     </div>
   </div>
 
+  <a class="confirmar" href="https://docs.google.com/forms/d/e/1FAIpQLScPGRN0tmp-L_LYI7xFu5vkahmracuLsJQlmjnbd2kD3umECw/viewform?usp=header" target="_blank">
+    Confirmar asistencia
+  </a>
+
+  <a class="waze" href="https://waze.com/ul/h9g6hm4qmf" target="_blank">
+    Cómo llegar con Waze
+  </a>
+
+  <a class="maps" href="https://maps.app.goo.gl/vPZBMYKpbL3ft48v9" target="_blank">
+    Google Maps
+  </a>
+
+</div>
   <script>
     const video = document.getElementById("videoInvitacion");
     const botones = document.getElementById("botones");
@@ -88,6 +139,28 @@
     video.addEventListener("ended", function() {
       botones.style.display = "block";
     });
+    const contador = document.getElementById('contador');
+const fechaEvento = new Date('2026-08-14T16:00:00-06:00').getTime();
+
+function actualizarContador(){
+  const ahora = new Date().getTime();
+  const diferencia = fechaEvento - ahora;
+
+  if(diferencia <= 0){
+    contador.innerHTML = '¡Llegó el gran día!';
+    return;
+  }
+
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+  const segundos = Math.floor((diferencia / 1000) % 60);
+
+  contador.innerHTML = `${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos`;
+}
+
+actualizarContador();
+setInterval(actualizarContador, 1000);
   </script>
 
 </body>
